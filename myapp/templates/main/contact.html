@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Contact
+  
+{% endblock title %}
+{% block content %}
+
+<!-- Contact Us Section -->
+<section class="container my-5">
+    <h2 class="text-center mb-5">Contact Us</h2>
+
+    <div class="row">
+      <!-- Contact Form -->
+      <div class="col-lg-6 mb-5">
+        <h3 class="mb-4">Send Us a Message</h3>
+        <form>
+          {% csrf_token %}
+         
+          <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+          </div>
+       
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+          </div>
+          <div class="mb-3">
+            <label for="number" class="form-label">Contact</label>
+            <input type="number" class="form-control" id="number" placeholder="Enter your phone munber" required>
+          </div>
+   
+        
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" rows="5" placeholder="Enter your message" required></textarea>
+          </div>
+         
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+
+      
+      <div class="col-lg-6">
+        <h3 class="mb-4">Our Location</h3>
+        
+        <div class="mb-4">
+          <p class="fw-bold">Address:</p>
+          <p>Butwal-11,Tamnagar</p>
+        </div>
+     
+        <div class="mb-4">
+          <p class="fw-bold">Phone:</p>
+          <p>+1 (123) 456-7890</p>
+        </div>
+       
+        <div class="mb-4">
+          <p class="fw-bold">Email:</p>
+          <p>info@techcompany.com</p>
+        </div>
+        <!-- Google Map -->
+        <div class="ratio ratio-16x9 mb-4">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8403.339283932664!2d83.38542316927611!3d27.681172952232664!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399688ce59f9ae8f%3A0xd5b1db6c2c294ad6!2sTamnagar%2C%20Butwal%2032900!5e0!3m2!1sen!2snp!4v1742125419101!5m2!1sen!2snp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+       
+        <h3 class="mb-4">Follow Us</h3>
+        <div class="d-flex gap-3">
+          <a href="https://facebook.com" target="_blank" class="text-decoration-none">
+            <i class="fab fa-facebook fa-2x text-primary"></i>
+          </a>
+          <a href="https://linkedin.com" target="_blank" class="text-decoration-none">
+            <i class="fab fa-linkedin fa-2x text-primary"></i>
+          </a>
+          <a href="https://instagram.com" target="_blank" class="text-decoration-none">
+            <i class="fab fa-instagram fa-2x text-primary"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% if messages %}
+    {% for message in messages %}
+    <script>
+        alertify.set('notifier', 'position', 'top-right');
+        alertify.success('{{message}}');
+    </script>
+
+    {% endfor %}
+
+    {% endif %}
+  
+{% endblock content %}

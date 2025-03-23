@@ -1,0 +1,25 @@
+.banner {
+    background-color: #f8f9fa;
+    padding: 50px 0;
+    text-align: center;
+}
+.banner img {
+    max-width: 50%;
+    height: 600px;
+}
+.banner .carousel-caption {
+    background: rgba(0, 0, 0, 0.5); 
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .banner .carousel-item {
+    padding: 20px 0;
+  }
+.highlight-features {
+    padding: 50px 0;
+    background-color: #c2d8ee;
+}
+.search-bar {
+    padding: 20px 0;
+    background-color: #f8f9fa;
+}

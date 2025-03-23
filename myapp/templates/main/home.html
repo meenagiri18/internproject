@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Home
+{% endblock title %}
+{% block content %}
+
+
+
+  <!-- Main Banner Section -->
+  <section class="banner-section" style="background: linear-gradient(135deg, #4e52a5, #5180d1); padding: 80px 0;">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Left Side: Image -->
+            <div class="col-md-5 d-flex justify-content-center me-5"> <!-- Added me-5 for margin -->
+                <img src="{% static 'images/web.jpeg' %}" alt="IT Training" class="img-fluid rounded-circle shadow" style=" background-color: whitesmoke; max-width: 100%; height: auto; object-fit: cover; aspect-ratio: 1/1;">
+            </div>
+
+            <!-- Right Side: Text and CTAs -->
+            <div class="col-md-6 text-white">
+                <h1 class="display-4 fw-bold">Unlock Your IT Potential</h1>
+                <p class="lead">Transform your career with our expert-led IT training programs.</p>
+
+                <!-- Rotating Slides (Placeholder) -->
+                <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <h3><i class="fas fa-code me-2"></i>Full Stack Development</h3>
+                            <p>Master front-end and back-end technologies to become a full-stack developer.</p>
+                        </div>
+                        <div class="carousel-item">
+                            <h3><i class="fas fa-chart-line me-2"></i>Data Science & Analytics</h3>
+                            <p>Learn data science from scratch and build real-world applications..</p>
+                        </div>
+                        <div class="carousel-item">
+                            <h3><i class="fas fa-shield-alt me-2"></i>Graphic Design</h3>
+                            <p>Learn Adobe Photoshop, Illustrator, and design principles</p>
+                        </div>
+                    </div>
+                    <!-- Removed Carousel Controls -->
+                </div>
+
+                <!-- Call-to-Action Buttons -->
+                <div class="cta-buttons mt-4">
+                    <a href="#" class="btn btn-light btn-lg me-3"><i class="fas fa-user-plus me-2"></i>Join Now</a>
+                    <a href="{% url 'course' %}" class="btn btn-outline-light btn-lg me-3"><i class="fas fa-book me-2"></i>Explore Courses</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+  <!-- Why Choose Us Section -->
+  <section class="why-choose-us py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-5">Why Choose Us?</h2>
+      <div class="row text-center">
+        <!-- Expert Instructors -->
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm p-3">
+            <div class="icon-wrapper mb-3">
+              <i class="fas fa-chalkboard-teacher fa-3x text-primary"></i>
+            </div>
+            <h4>Expert Instructors</h4>
+            <p class="text-muted">Learn from industry professionals with years of experience.</p>
+          </div>
+        </div>
+      
+        <!-- Hands-On Projects -->
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm p-3">
+            <div class="icon-wrapper mb-3">
+              <i class="fas fa-laptop-code fa-3x text-primary"></i>
+            </div>
+            <h4>Hands-On Projects</h4>
+            <p class="text-muted">Gain practical experience with real-world projects.</p>
+          </div>
+        </div>
+      
+        <!-- Career Support -->
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm p-3">
+            <div class="icon-wrapper mb-3">
+              <i class="fas fa-briefcase fa-3x text-primary"></i>
+            </div>
+            <h4>Career Support</h4>
+            <p class="text-muted">Get job placement assistance and career guidance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+      <!-- Success Stats -->
+   
+<section class="success-stats py-5" style="background: linear-gradient(135deg, #4e52a5, #5180d1); margin: 0; padding: 0;">
+  <div class="container-fluid p-0">
+      <div class="row justify-content-center mx-0">
+          <div class="col-md-12 text-center px-0">
+              <!-- Animated Icon -->
+              <div class="icon-wrapper mb-4" data-aos="zoom-in" data-aos-duration="1000">
+                  <i class="fas fa-users fa-3x text-white"></i>
+              </div>
+
+              <!-- Catchy Heading -->
+              <h2 class="h3 fw-bold mb-3 text-white" data-aos="fade-up" data-aos-duration="1000">
+                  Join 10,000+ Learners Who Transformed Their Careers!
+              </h2>
+
+              <!-- Subheading -->
+              <p class="lead text-white mb-4" data-aos="fade-up" data-aos-duration="1200">
+                  Be part of a thriving community achieving success every day.
+              </p>
+
+              <!-- Stats Grid -->
+              <div class="row justify-content-center mt-4 mx-0" data-aos="fade-up" data-aos-duration="1400">
+                  <div class="col-md-3 mb-4">
+                      <div class="card border-0 shadow-sm p-3 bg-white">
+                          <h3 class="fw-bold">10K+</h3>
+                          <p class="text-muted mb-0">Students Trained</p>
+                      </div>
+                  </div>
+                  <div class="col-md-3 mb-4">
+                      <div class="card border-0 shadow-sm p-3 bg-white">
+                          <h3 class="fw-bold">95%</h3>
+                          <p class="text-muted mb-0">Placement Rate</p>
+                      </div>
+                  </div>
+                  <div class="col-md-3 mb-4">
+                      <div class="card border-0 shadow-sm p-3 bg-white">
+                          <h3 class="fw-bold">50+</h3>
+                          <p class="text-muted mb-0">Industry Experts</p>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Call-to-Action Button -->
+              <div class="mt-5" data-aos="fade-up" data-aos-duration="1600">
+                  <a href="#enroll" class="btn btn-light btn-lg px-5">
+                      <i class="fas fa-user-plus me-2"></i>Join Now
+                  </a>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+  
+  <!-- Testimonials Section -->
+  <section class="testimonials-section py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">What Our Students Say</h2>
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for testimonial_group in testimonials|slice:":3" %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        {% for testimonial in testimonial_group %}
+                        <div class="col">
+                            <div class="card h-100 shadow-sm text-center p-3">
+                                <img src="{% if testimonial.photo %}{{ testimonial.photo.url }}{% else %}{% static 'images/default.png' %}{% endif %}" class="rounded-circle mx-auto" alt="{{ testimonial.student_name }}" width="100" height="100">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ testimonial.student_name }}</h5>
+                                    <p class="text-muted">{{ testimonial.course_taken }}</p>
+                                    <p class="card-text">"{{ testimonial.testimonial }}"</p>
+                                    <div class="text-warning">
+                                        {% for _ in "12345" %}
+                                            {% if forloop.counter <= testimonial.rating %}
+                                                <i class="fas fa-star"></i>
+                                            {% else %}
+                                                <i class="far fa-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</section>
+  
+  <!-- More Inquiries Section -->
+  <section class="inquiries-section py-5 bg-light">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+          <!-- Card for More Inquiries -->
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h3 class="card-title">Need More Information?</h3>
+              <p class="card-text">We're here to help! Contact us for any questions or clarifications.</p>
+              <!-- Contact Us Button -->
+              <a href="#contact" class="btn btn-primary btn-lg">
+                <i class="fas fa-envelope me-2"></i>Get in Touch
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
