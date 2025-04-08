@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'myapp.CustomUser'
+
 
 # Application definition
 
@@ -37,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myapp',
+    'myapp.apps.MyappConfig',
     'studentapp',
+    'instructorapp',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +124,9 @@ STATIC_URL = 'static/'
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
 
+
+# settings.py
+ 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -133,4 +139,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'meenagiri2058@gmail.com'
-EMAIL_HOST_PASSWORD = 'rtlm ngbm wnea mfbp'
+EMAIL_HOST_PASSWORD = 'zphp ozez tevq axyg'

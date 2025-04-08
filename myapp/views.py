@@ -2,7 +2,7 @@ import re
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import *
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
@@ -38,19 +38,25 @@ def contact(request):
         email=request.POST['email']
         phone=request.POST['number']
         message=request.POST['message']
-        if not re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
+        if not re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", email):
             messages.error(request, "Invalid email")
             return redirect("contact")
         else:
-            Contact.objects.create(name=name,email=email,phone=phone,message=message)
-            subject="Form Submission"
-            message="formm"
-            from_email="meenagiri2058@gmail.com"
-            recipient_list="meenagiri2058@gmail.com"
-            send_mail(subject,message,from_email,recipient_list,fail_silently=True)
+            try:
+                email_message = EmailMessage(
+                subject='Form submission',
+                body='Hi {name} your form has been successfully submitted.Wait for the response from the company.Thankyou!!!',
+                from_email="meenagiri2058@gmail.com",  
+                to=["meenagiri2058@gmail.com"], 
+                headers={"Reply-To": email}  
+            )
+                email_message.send(fail_silently=False)
+                messages.success(request, "Email has been sent!!")
+                return redirect("home")
+            except Exception as e:
+                messages.error(request, f"Error sending email: {e}")
+                return redirect("contact")
 
-            messages.success(request,f'Hi {name} your form is successfully submit')
-            return redirect('home')
 
     return render(request,'main/contact.html')
 def blog_list(request):
@@ -91,17 +97,17 @@ def register(request):
             return redirect('register')
 
         # Check if username already exists
-        if User.objects.filter(username=username).exists():
+        if CustomUser.objects.filter(username=username).exists():
             messages.error(request, 'Username already taken.')  # Error message
             return redirect('register')
 
         # Check if email already exists
-        if User.objects.filter(email=email).exists():
+        if CustomUser.objects.filter(email=email).exists():
             messages.error(request, 'Email already registered.')  # Error message
             return redirect('register')
 
         # Create the user
-        user = User.objects.create_user(
+        user = CustomUser.objects.create_user(
             username=username,
             email=email,
             password=password1,
@@ -111,7 +117,7 @@ def register(request):
         user.save()
 
         messages.success(request, 'Registration successful. Please log in.')  # Success message
-        return redirect('login')
+        return redirect('log_in')
     else:
          return render(request,'auth/register.html')
     

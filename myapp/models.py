@@ -1,9 +1,29 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
 from django.urls import reverse
 
 # Create your models here.
+class CustomUser(AbstractUser):
+    USER_TYPE = (
+        ("student", "Student"),
+        ("instructor", "Instructor"),
+    )
+    
+    user_type = models.CharField(max_length=100, choices=USER_TYPE)
+    instructor_applied = models.BooleanField(default=False)
+    instructor_approved = models.BooleanField(default=False) 
+    is_active = models.BooleanField(default=True) 
+    user_profile_image = models.ImageField(upload_to="images/profile_images/")
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.username
+    
+
 class Testimonial(models.Model):
     student_name = models.CharField(max_length=100)
     course_taken = models.CharField(max_length=100, help_text="Course the student took")
@@ -48,8 +68,7 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title    
-    
-from django.db import models
+
 
 class Contact(models.Model):
     name = models.CharField(max_length=100)

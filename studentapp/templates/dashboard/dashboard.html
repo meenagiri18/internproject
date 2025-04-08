@@ -1,0 +1,169 @@
+{% extends 'base2.html' %}
+
+{% block title %}
+Student Dashboard
+{% endblock title %}
+
+{% block content %}
+{% load static %}
+<div class="container-fluid mt-4">
+  <div class="row">
+    <!-- Sidebar Navigation -->
+    <div class="col-md-3 col-lg-2 mb-3">
+      <div class="card shadow-sm h-100">
+        <div class="card-body p-0 d-flex flex-column">
+          <!-- Profile Section -->
+          <div class="text-center p-4 border-bottom">
+            <img
+              src="{% static 'images/default.png' %}"
+              class="rounded-circle mb-2" width="80" height="60" alt="Profile">
+            <h6 class="mb-0">{{ user.first_name|default:user.username }}</h6>
+            <small class="text-muted">Student</small>
+          </div>
+
+          <!-- Navigation Links-->
+          <ul class="nav flex-column flex-grow-1">
+            <li class="nav-item">
+              <a class="nav-link px-4 py-3" href="{% url 'profile' %}">
+                <i class="bi bi-person-vcard-fill me-2"></i> Profile
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-4 py-3" href="#">
+                <i class="bi bi-journal-bookmark-fill me-2"></i> My Courses
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-4 py-3" href="{% url 'job_announcement' %}">
+                <i class="bi bi-briefcase-fill me-2"></i> Job Opportunities
+              </a>
+            </li>
+            <li class="nav-item mt-auto">
+              <a class="nav-link text-danger px-4 py-3" href="{% url 'log_out' %}">
+                <i class="bi bi-power me-2"></i> Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Dashboard Content -->
+    <div class="col-md-9 col-lg-10">
+      <div class="container-fluid px-0">
+        <!-- Centered Greeting Section -->
+        <div class="card shadow-lg mb-4 border-0 mx-auto" style="max-width: 800px; background: linear-gradient(135deg, #4e52a5, #5180d1);">
+          <div class="card-body p-5 d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+            <div class="text-center">
+              <h2 class="fw-bold mb-3 text-white">Welcome back, {{ user.first_name|default:user.username }}!</h2>
+              <p class="lead mb-0 text-white">Discover what's new in your learning journey today</p>
+             
+            </div>
+          </div>
+        </div>
+
+        <!-- Application Status and Quick Actions Section -->
+        <div class="mb-4 p-4 rounded-3">
+          <div class="row g-4">
+            <!-- Application Status Column -->
+            <div class="col-lg-6">
+              {% if user.instructor_applied %}
+              <div class="card shadow-sm h-100 bg-white">
+                <div class="card-body">
+                  <h5 class="card-title text-dark">
+                    <i class="bi bi-hourglass-top text-warning me-2"></i>
+                    Application Status
+                  </h5>
+                  <div class="d-flex flex-column h-100">
+                    <p class="text-dark">Your instructor application is currently under review.</p>
+                    <div class="mt-auto">
+                      <button class="btn btn-outline-warning">
+                        <i class="bi bi-eye-fill me-1"></i> View Status
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% else %}
+              <div class="card shadow-sm h-100 bg-white">
+                <div class="card-body">
+                  <h5 class="card-title text-dark">
+                    <i class="bi bi-mortarboard-fill text-success me-2"></i>
+                    Want to teach?
+                  </h5>
+                  <p class="text-dark">Apply to become an instructor and share your knowledge with others.</p>
+                  <form method="post" action="{% url 'apply_for_instructor' %}">
+                    {% csrf_token %}
+                    <button class="btn btn-success">
+                      <i class="bi bi-send-fill me-1"></i> Apply Now
+                    </button>
+                  </form>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+
+            <!-- Quick Actions Column -->
+            <div class="col-lg-6">
+              <div class="card shadow-sm h-100 bg-white">
+                <div class="card-body">
+                  <h5 class="card-title text-dark mb-4">
+                    <i class="bi bi-lightning-charge-fill text-warning me-2"></i> Quick Actions
+                  </h5>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <a href="{% url 'profile' %}" class="card action-card h-100 text-decoration-none">
+                        <div class="card-body text-center">
+                          <i class="bi bi-person-badge-fill fs-3 text-primary mb-2"></i>
+                          <h6 class="text-dark">View Profile</h6>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="col-md-6">
+                      <a href="{% url 'course' %}" class="card action-card h-100 text-decoration-none">
+                        <div class="card-body text-center">
+                          <i class="bi bi-journals fs-3 text-success mb-2"></i>
+                          <h6 class="text-dark">View Courses</h6>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="col-md-6">
+                      <a href="{% url 'job_announcement' %}" class="card action-card h-100 text-decoration-none">
+                        <div class="card-body text-center">
+                          <i class="bi bi-briefcase-fill fs-3 text-info mb-2"></i>
+                          <h6 class="text-dark">Job Board</h6>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="col-md-6">
+                      <a href="#" class="card action-card h-100 text-decoration-none">
+                        <div class="card-body text-center">
+                          <i class="bi bi-calendar-week-fill fs-3 text-danger mb-2"></i>
+                          <h6 class="text-dark">My Schedule</h6>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .action-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    border-color: var(--bs-primary);
+  }
+</style>
+{% endblock content %}

@@ -1,7 +1,12 @@
 from django.contrib import admin
 from .models import *
+from django.contrib.auth.admin import UserAdmin
+from .models import CustomUser
 
 # Register your models here.
+admin.site.register(CustomUser, UserAdmin)
+
+
 @admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):
     list_display = ('student_name', 'course_taken', 'rating', 'created_at')
