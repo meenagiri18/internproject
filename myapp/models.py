@@ -114,4 +114,38 @@ class Blog(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('blog_detail', kwargs={'slug': self.slug})    
+        return reverse('blog_detail', kwargs={'slug': self.slug}) 
+
+
+class Payment(models.Model):
+    PAYMENT_METHODS = [
+        ("esewa", "eSewa"),
+        ("khalti", "Khalti")
+    ]
+    STATUS_CHOICES = [
+        ("pending", "Pending"),
+        ("completed", "Completed"),
+        ("failed", "Failed"),
+    ]
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS)
+    transaction_id = models.CharField(max_length=100, unique=True,null=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
+
+    def str(self):
+        return f"{self.user.username} - {self.course.title} - {self.payment_method} - {self.status}"
+
+
+class Enrollment(models.Model):
+    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    enrolled_at = models.DateTimeField(auto_now_add=True)
+    completed = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('student', 'course')
+
+    def str(self):
+        return f"{self.student.username} enrolled in {self.course.title}"           

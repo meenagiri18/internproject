@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Payment Failed{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card shadow p-5">
+                <div class="mb-4">
+                    <i class="fas fa-times-circle text-danger" style="font-size: 5rem;"></i>
+                </div>
+                <h2 class="mb-3">Payment Failed</h2>
+                <p class="lead mb-4">We couldn't process your payment for {{ course.title }}.</p>
+                
+                <div class="card mb-4 border-danger">
+                    <div class="card-body text-start">
+                        <h5 class="card-title">Error Details</h5>
+                        <p><strong>Reason:</strong> {{ error_message|default:"Payment processing failed" }}</p>
+                        <p><strong>Transaction ID:</strong> {{ transaction_id|default:"N/A" }}</p>
+                        <p><strong>Amount:</strong> Rs {{ amount|default:"0" }}</p>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-block">
+                    <a href="{% url 'course' %}" class="btn btn-outline-primary px-4 me-2">
+                        Back to Course
+                    </a>
+                    <a href="{% url 'payment' %}" class="btn btn-danger px-4 me-2">
+                        <i class="fas fa-credit-card me-2"></i> Try Payment Again
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

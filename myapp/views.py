@@ -1,5 +1,9 @@
+from datetime import timezone
 import re
+import uuid
+from django.http import JsonResponse
 from django.shortcuts import render,redirect,get_object_or_404
+import requests
 from .models import *
 from django.contrib import messages
 from django.core.mail import EmailMessage
@@ -9,6 +13,9 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
 # Create your views here.
+KHALTI_SECRET_KEY = "4d6e32adf07a4c8e962c857654f0c956"
+KHALTI_INITIATE_URL = "https://dev.khalti.com/api/v2/epayment/initiate/"
+
 def base(request):
     return render(request,'base.html')
 def home(request):
@@ -124,7 +131,81 @@ def register(request):
 def log_out(request):
     logout(request)  
     messages.success(request, 'You have been successfully logged out.')  # Success message
-    return redirect('home')   
-           
+    return redirect('home')  
 
+def payment(request ,id):
+    course=Course.objects.get(id=id)
+    transaction_id = uuid.uuid4().hex
+    return render(request, 'main/payment.html', {'course':course, 'transaction_id':transaction_id})
+
+def initkhalti(request):
+    if request.method == "POST":
+        print(f"POST data: {request.POST}")
+        purchase_order_id = request.POST.get("purchase_order_id")
+        amount = int(float(request.POST.get("amount")) * 100)
+        course_id = request.POST.get("course_id")
+
+        # Store course_id in session to use it later
+        request.session["course_id"] = course_id
+
+        return_url = request.build_absolute_uri(reverse("payment_success"))
+
+        payload = {
+            "return_url": return_url,
+            "website_url": request.build_absolute_uri("/"),
+            "amount": amount,
+            "purchase_order_id": purchase_order_id,
+            "purchase_order_name": "Course Payment",
+        }
+
+        headers = {"Authorization": f"Key {KHALTI_SECRET_KEY}"}
+
+        response = requests.post(KHALTI_INITIATE_URL, json=payload, headers=headers)
+        response_data = response.json()
+
+        if response.status_code == 200 and "payment_url" in response_data:
+            khalti_payment_url = response_data["payment_url"]
+            return redirect(khalti_payment_url)
+        else:
+            return JsonResponse({"error": "Khalti Payment Failed"}, status=400)
+
+    return redirect("courses")  
+transaction_id = uuid.uuid4().hex  
+
+
+
+def payment_success(request):
+    transaction_id = request.GET.get('transaction_id') 
+    amount = request.GET.get('amount')
+    course_id = request.GET.get('course_id') 
+    
+    course = get_object_or_404(Course, id=course_id)
+    
+  
+    if course not in request.user.enrolled_courses.all():
+        request.user.enrolled_courses.add(course)
+    
+    context = {
+        'course': course,
+        'amount': amount,
+        'transaction_id': transaction_id,
+        'payment_date': timezone.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+    
+    return render(request, 'payment/payment_success.html', context)
+
+def payment_failure(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+
+    error_message = request.GET.get('error_message', 'Payment processing failed')
+    transaction_id = request.GET.get('transaction_id', 'N/A')
+    amount = request.GET.get('amount', '0')
+
+    context = {
+        'course': course,
+        'error_message': error_message,
+        'transaction_id': transaction_id,
+        'amount': amount,
+    }
+    return render(request, 'payment_failure.html', context)
    

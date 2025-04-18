@@ -12,5 +12,9 @@ urlpatterns = [
     path("log_in/", log_in, name='log_in'),
     path("register/", register, name='register'),
     path('log_out/', log_out, name='log_out'),
-  
+    path('payment/<int:id>',payment,name='payment'),
+    path("initiate", initkhalti, name="initiate"),
+    path("payment-success",payment_success, name="payment_success"), 
+    path("payment-failure",payment_failure, name="payment_failure"),
+
 ]
