@@ -1,0 +1,68 @@
+{% extends 'base3.html' %}
+{% load static %}
+{% block title %}Edit Course{% endblock title %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #f8f9fa;">
+    <div class="card shadow-sm p-4" style="width: 100%; max-width: 500px;">
+        <h4 class="text-center mb-4 text-primary">Edit Course</h4>
+        
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Course Title*</label>
+                <input type="text" class="form-control" name="title" value="{{ course.title }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description*</label>
+                <textarea class="form-control" name="description" rows="3" required>{{ course.description }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Duration*</label>
+                <select class="form-select" name="duration" required>
+                    <option value="">Select</option>
+                    <option value="short-term" {% if course.duration == 'short-term' %}selected{% endif %}>Short-term</option>
+                    <option value="long-term" {% if course.duration == 'long-term' %}selected{% endif %}>Long-term</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Skill Level*</label>
+                <select class="form-select" name="skill_level" required>
+                    <option value="">Select</option>
+                    <option value="beginner" {% if course.skill_level == 'beginner' %}selected{% endif %}>Beginner</option>
+                    <option value="intermediate" {% if course.skill_level == 'intermediate' %}selected{% endif %}>Intermediate</option>
+                    <option value="advanced" {% if course.skill_level == 'advanced' %}selected{% endif %}>Advanced</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Prerequisites</label>
+                <input type="text" class="form-control" name="prerequisite" value="{{ course.prerequisite }}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Course Fee (Rs.)*</label>
+                <input type="number" class="form-control" name="price" min="0" value="{{ course.price }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Thumbnail Image*</label>
+                <input type="file" class="form-control" name="image" accept="image/*">
+            </div>
+
+            <div class="d-grid gap-2 mt-3">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save me-1"></i> Update Course
+                </button>
+                <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">
+                    <i class="fas fa-times me-1"></i> Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

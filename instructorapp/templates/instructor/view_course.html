@@ -1,0 +1,27 @@
+{% extends "base3.html" %}
+{% load static %}
+{% block title %}
+View Course
+  
+{% endblock title %}
+{% block content %}
+<div class="container">
+    <div class="card shadow-sm mt-4">
+        <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ course.title }}</h5>
+            <p class="card-text">{{ course.description }}</p>
+            <p><strong>Duration:</strong> {{ course.get_duration_display }}</p>
+            <p><strong>Skill Level:</strong> {{ course.get_skill_level_display }}</p>
+            {% if course.prerequisite %}
+            <p><strong>Prerequisites:</strong> {{ course.prerequisite }}</p>
+            {% endif %}
+            <p><strong>Price:</strong> Rs{{ course.price }}</p>
+            <p><strong>Instructor:</strong> {{ course.instructor.get_full_name }}</p>
+        </div>
+    </div>
+    
+    <a href="{% url 'my_courses' %}" class="btn btn-primary mt-3">Back to Courses</a>
+</div>
+  
+{% endblock content %}

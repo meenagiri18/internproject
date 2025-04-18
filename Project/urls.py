@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('myapp.urls')),
     path("student/", include('studentapp.urls')),
-    path('instructor/',include('instructor.urls')),
+    path('instructor/',include('instructorapp.urls')),
 ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

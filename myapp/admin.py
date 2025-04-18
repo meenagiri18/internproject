@@ -1,10 +1,9 @@
 from django.contrib import admin
 from .models import *
-from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 
 # Register your models here.
-admin.site.register(CustomUser, UserAdmin)
+admin.site.register(CustomUser)
 
 
 @admin.register(Testimonial)
@@ -15,7 +14,7 @@ class TestimonialAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('title', 'skill_level', 'duration', 'fee', 'instructor')
+    list_display = ('title', 'skill_level', 'duration', 'price', 'instructor')
 
 @admin.register(Instructor)
 class InstructorAdmin(admin.ModelAdmin):
