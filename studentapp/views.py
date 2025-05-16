@@ -1,5 +1,7 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import get_object_or_404, render,redirect
 from .models import *
+from myapp.models import Course
+from myapp.models import Payment
 from django.core.mail import EmailMessage
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -77,3 +79,24 @@ def apply_for_instructor(request):
             return redirect('dashboard')
     
     return redirect('dashboard')
+
+def enrolled_courses(request):
+    payments = Payment.objects.filter(user=request.user, status='completed')
+    enrolled_courses = [payment.course for payment in payments]
+    return render(request, 'dashboard/enrolled_course.html', {'courses': enrolled_courses})
+
+def course_player(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+
+    
+    enrolled_courses = Payment.objects.filter(user=request.user, status='completed').values_list('course_id', flat=True)
+    if course.id not in enrolled_courses:
+        return redirect('enrolled_courses')
+
+    return render(request, 'dashboard/course_player.html', {
+        'course': course,
+        'enrolled': True
+    })
+
+
+

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Enrolled Courses
+{% endblock title %}
+
+{% block content %}
+<section class="courses-section py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Your Enrolled Courses</h2>
+
+        <!-- Course Cards -->
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="row">
+                        {% for course in courses %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ course.title }}</h5>
+                                    <p class="card-text">{{ course.description|truncatewords:20 }}</p>
+                                    <p><strong>Duration:</strong> {{ course.get_duration_display }}</p>
+                                    <p><strong>Skill Level:</strong> {{ course.get_skill_level_display }}</p>
+                                    {% if course.prerequisite %}
+                                    <p><strong>Prerequisite:</strong> {{ course.prerequisite }}</p>
+                                    {% endif %}
+                                    <p><strong>Price:</strong> Rs{{ course.price }}</p>
+                                    <p class="card-text">
+                                        <strong>Instructor:</strong>
+                                        {% if course.instructor %}
+                                        {{ course.instructor.get_full_name }}
+                                        {% else %}
+                                        Not assigned
+                                        {% endif %}
+                                    </p>
+                                  <a href="{% url 'course_player' course.id %}" class="btn btn-primary">Continue</a>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>You have not enrolled in any courses yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

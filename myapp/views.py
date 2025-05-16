@@ -1,4 +1,4 @@
-from datetime import timezone
+from django.utils import timezone
 import re
 import uuid
 from django.http import JsonResponse
@@ -28,15 +28,35 @@ def home(request):
     return render(request, 'main/home.html', context)
     
 def course(request):
+    
+    skill_level = request.GET.get('skillLevel')
+    duration = request.GET.get('duration')
+    price_range = request.GET.get('priceRange')
+
     courses = Course.objects.all()
+
+    # Apply skill level filter
+    if skill_level and skill_level != 'Skill Level':
+        courses = courses.filter(skill_level=skill_level)
+
+    # Apply duration filter
+    if duration and duration != 'Duration':
+        courses = courses.filter(duration=duration)
+
+    # Apply price sorting
+    if price_range == 'low':
+        courses = courses.order_by('price')
+    elif price_range == 'high':
+        courses = courses.order_by('-price')
+
     instructors = Instructor.objects.all()
+
     context = {
         'courses': courses,
         'instructors': instructors,
     }
 
-    return render(request,'main/courses.html',context)
-
+    return render(request, 'main/courses.html', context)
 def about(request):
     return render(request,'main/about.html')
 def contact(request):
@@ -142,11 +162,23 @@ def initkhalti(request):
     if request.method == "POST":
         print(f"POST data: {request.POST}")
         purchase_order_id = request.POST.get("purchase_order_id")
-        amount = int(float(request.POST.get("amount")) * 100)
+        amount = int(float(request.POST.get("amount")) * 100) 
         course_id = request.POST.get("course_id")
 
-        # Store course_id in session to use it later
         request.session["course_id"] = course_id
+
+        course = get_object_or_404(Course, id=course_id)
+        user = request.user
+
+     
+        Payment.objects.create(
+            user=user,
+            course=course,
+            amount=amount / 100, 
+            payment_method='khalti',
+            purchase_order_id=purchase_order_id,
+            status='pending'
+        )
 
         return_url = request.build_absolute_uri(reverse("payment_success"))
 
@@ -169,19 +201,20 @@ def initkhalti(request):
         else:
             return JsonResponse({"error": "Khalti Payment Failed"}, status=400)
 
-    return redirect("courses")  
-transaction_id = uuid.uuid4().hex  
-
-
+    return redirect("courses")
 
 def payment_success(request):
     transaction_id = request.GET.get('transaction_id') 
     amount = request.GET.get('amount')
-    course_id = request.GET.get('course_id') 
+    purchase_order_id = request.GET.get('purchase_order_id')
     
-    course = get_object_or_404(Course, id=course_id)
-    
-  
+    payment = get_object_or_404(Payment, purchase_order_id=purchase_order_id)
+    course = payment.course
+
+    payment.transaction_id = transaction_id
+    payment.status = "completed"
+    payment.save()
+
     if course not in request.user.enrolled_courses.all():
         request.user.enrolled_courses.add(course)
     
@@ -192,7 +225,8 @@ def payment_success(request):
         'payment_date': timezone.now().strftime("%Y-%m-%d %H:%M:%S")
     }
     
-    return render(request, 'payment/payment_success.html', context)
+    return render(request, 'main/payment_success.html', context)
+
 
 def payment_failure(request, course_id):
     course = get_object_or_404(Course, id=course_id)
@@ -207,5 +241,5 @@ def payment_failure(request, course_id):
         'transaction_id': transaction_id,
         'amount': amount,
     }
-    return render(request, 'payment_failure.html', context)
+    return render(request, 'main/payment_failure.html', context)
    

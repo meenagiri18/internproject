@@ -25,15 +25,16 @@ def create_course(request):
     return render(request,'instructor/create_course.html')
 
 def my_courses(request):
-    courses=Course.objects.filter(instructor=request.user)
-    return render(request,'instructor/my_courses.html',{'courses':courses})
+    courses = Course.objects.all()  # Shows all courses regardless of instructor
+    return render(request, 'instructor/my_courses.html', {'courses': courses})
+
 
 def edit_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
    
-    if course.instructor != request.user:
-        return redirect('course')  
+    # if course.instructor != request.user:
+    #     return redirect('my_courses')  
 
     if request.method == 'POST':
         course.title = request.POST.get('title')
@@ -47,7 +48,7 @@ def edit_course(request, course_id):
             course.image = request.FILES['image']
 
         course.save()
-        return redirect('course')  
+        return redirect('my_courses')  
 
     return render(request, 'instructor/edit_course.html', {'course': course})
 def view_course(request, course_id):
