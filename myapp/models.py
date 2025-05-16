@@ -12,7 +12,7 @@ class CustomUser(AbstractUser):
         ("instructor", "Instructor"),
     )
     
-    user_type = models.CharField(max_length=100, choices=USER_TYPE)
+    user_type = models.CharField(max_length=100, choices=USER_TYPE, default='student')
     instructor_applied = models.BooleanField(default=False)
     instructor_approved = models.BooleanField(default=False) 
     is_active = models.BooleanField(default=True) 
